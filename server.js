@@ -1,14 +1,12 @@
 const express = require('express');
-const mysql = require('mysql2/promise')
+const sqlit3 = require('sqlite3')
 
-const knex = require('knex')({
-  client: 'mysql2',
-  connection: {
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'test'
-  }
+const knex = require('knex');
+
+const db = knex({
+  client: 'sqlite3',
+  connection: {filename: './db1.db'},
+  useNullAsDefault: true
 });
 
 module.exports = knex;
