@@ -1,6 +1,5 @@
 const express = require('express');
 const sqlit3 = require('sqlite3')
-
 const knex = require('knex');
 
 const db = knex({
