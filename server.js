@@ -14,6 +14,12 @@ const port = 3000;
 app.use(express.static('public'))
 app.use(express.json());
 
+app.get('/reservations', (reg, res) => {
+    res.sendFile(__dirname + "/public/reservation_list/index.html")
+})
+app.get('/new_reservation', (reg, res) => {
+    res.sendFile(__dirname + "/public/new_reservation/index.html")
+})
 app.get('/', (reg, res) => {
     res.sendFile(__dirname + "/public/reservation_list/index.html")
 })
