@@ -2,17 +2,34 @@ let startDatePicker;
 let endDatePicker;
 
 window.onload = async function(){
+    initDatePickers();
+
+    document.getElementById("searchBtn").onclick = searchAvailability;
+}
+
+function searchAvailability(){
+    window.location.href = `http://localhost:3000/find_space/?start=${startDatePicker.selectedDates[0]}&end=${endDatePicker.selectedDates[0]}`;
+}
+
+function initDatePickers(){
     startDatePicker = flatpickr("#startDate", {
         dateFormat: "Y-m-d",
         inline: true,
         onChange: function(selectedDates, dateStr, instance) {
             // Update the display
-            let nextDay = new Date(selectedDates[0]);
-            nextDay.setDate(nextDay.getDate() + 1);
-            endDatePicker.setDate(nextDay, true);
-
+            let currentDay = new Date(selectedDates[0]);
+            
+            // if end date is less than start of end date has not been selected
+            if((currentDay >= new Date(endDatePicker.selectedDates[0])) || (!endDatePicker.selectedDates[0])){
+                console.log("More")
+                currentDay.setDate(currentDay.getDate() + 1);
+                endDatePicker.setDate(currentDay);
+            }
+            
             //document.getElementById('startDateDisplay').textContent = dateStr || 'Not selected';
-
+            const searchButton = document.getElementById("searchBtn");
+            searchButton.disabled = false;
+            searchButton.classList.remove("disabledButton");
         }
     });
 
@@ -21,11 +38,16 @@ window.onload = async function(){
         dateFormat: "Y-m-d",
         inline: true,
         onChange: function(selectedDates, dateStr, instance) {
-            // Update the display
-            //document.getElementById('endDateDisplay').textContent = dateStr || 'Not selected';
-            
-            // Set the maximum date for start date picker
+            let currentDay = new Date(selectedDates[0]);
+
+            if(!startDatePicker.selectedDates[0] || currentDay <= new Date(startDatePicker.selectedDates[0])){
+                currentDay.setDate(currentDay.getDate() -1);
+                startDatePicker.setDate(currentDay);
+            }
+
+            const searchButton = document.getElementById("searchBtn");
+            searchButton.disabled = false;
+            searchButton.classList.remove("disabledButton");
         }
     });
 }
-

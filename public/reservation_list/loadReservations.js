@@ -3,45 +3,9 @@ let table;
 window.onload = async function() {
     
     table = new DataTable('#reservationTable');
-
     table.searching = true;
-    /*
-    table.row.add([
-        "1",
-        "August 14",
-        "August 15",
-        "Jack Oosterwijk",
-        "Power",
-        "20",
-        "new dock 2",       
-        "$0.00",
-        "$495.00", 
-        '<button class="show-btn">Show</button>',
-        '<button class="check-in-btn">Check in</button>',
-        '<button class="cancel-btn">Cancel</button>'
-    ]).draw();
-    */
-    /*
-    let data = {
-        start: '2025-08-14',
-        end: '2025-08-14',
-        name: 'John Doe',
-        type: 'Sail',
-        length: '30ft',
-        space: 'East Dck 2',
-        payment: '$0.00',
-        due: '$50.00',
-        address: '186 st',
-        state: 'ns',
-        postal: "B0J2E0",
-        phone: "9022988912",
-        email: "email@a.ca",
-        boat_name: "kildoon"
-    } 
-    await writeReservationDB(data);
-    */
-
     await appendTable();
+
 }
 async function appendTable(){
     let reservationList;

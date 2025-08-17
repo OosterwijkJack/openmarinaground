@@ -2,9 +2,9 @@ const express = require('express');
 const sqlit3 = require('sqlite3')
 const knex = require('knex');
 
-const db = knex({
+const reservationsDB = knex({
   client: 'sqlite3',
-  connection: {filename: './db1.db'},
+  connection: {filename: './databases/reservations.db'},
   useNullAsDefault: true
 });
 
@@ -23,6 +23,15 @@ app.get('/new_reservation', (reg, res) => {
 app.get('/', (reg, res) => {
     res.sendFile(__dirname + "/public/reservation_list/index.html")
 })
+app.get("/find_space", (reg, res)=>{
+    res.sendFile(__dirname + "/public/find_space/index.html")
+})
+app.get("/admin", (req, res) =>{
+    res.sendFile(__dirname + "/public/admin/index.html")
+})
+app.get("/admin/manage_spaces", (req, res)=>{
+    res.sendFile(__dirname + "/public/admin/manage_spaces/index.html")
+})
 
 app.listen(port, () =>{
     console.log(`Server running at http://localhost:${port}`)
@@ -30,7 +39,7 @@ app.listen(port, () =>{
 
 app.get('/api/reservations', async (req, res) => {
     try {
-        const reservations = await db('reservations').select('*');
+        const reservations = await reservationsDB('reservations').select('*');
         res.json(reservations);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -41,7 +50,7 @@ app.get('/api/reservations', async (req, res) => {
 app.post('/api/reservations', async (req, res) => {
     try {
       console.log(req.body);
-        await db('reservations').insert(req.body);
+        await reservationsDB('reservations').insert(req.body);
         res.json({ success: true });
     } catch (err) {
         res.status(500).json({ error: err.message });

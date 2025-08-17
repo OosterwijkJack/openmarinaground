@@ -7,7 +7,6 @@
     
     
     <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
     <div class="container-fluid">
@@ -21,9 +20,9 @@
 
         <div class="nav-buttons">
             <div class="button-group">
-                <button class="nav-btn primary">Reservation List</button>
+                <button class="nav-btn" onclick="window.location.href = 'http://localhost:3000/'">Reservation List</button>
                 <button class="nav-btn">In Park List</button>
-                <button class="nav-btn">New Reservation</button>
+                <button class="nav-btn primary">New Reservation</button>
                 <button class="nav-btn">New Group Reservation</button>
                 <button class="nav-btn">Find Reservation</button>
                 <button class="nav-btn">Campers</button>
@@ -32,7 +31,7 @@
                 <button class="nav-btn">Site Availability</button>
                 <button class="nav-btn">Reports</button>
                 <button class="nav-btn">Database Backup</button>
-                <button class="nav-btn">Admin</button>
+                <button class="nav-btn" onclick="window.location.href = 'http://localhost:3000/admin'">Admin</button>
             </div>
         </div>
 
@@ -47,10 +46,15 @@
                 <input type="text" id="endDate" placeholder="Select end date">
             </div>
         </div>
+        <div style="padding: 0 50px 20px 50px;">
+            <button id="searchBtn" class="disabledButton niceButton">
+            Search Availability
+            </button>
+        </div>
+    
     <!-- Required JavaScript libraries -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="/new_reservation/newReservation.js"></script>
 </body>
 </html>
