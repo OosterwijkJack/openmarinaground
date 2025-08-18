@@ -14,8 +14,8 @@ window.onload = function() {
         };
         
         // Basic validation
-        if (!formData.size || !formData.type || !formData.name) {
-            alert('Please fill in required fields: Space Size, Name, and Type');
+        if (!formData.name) {
+            alert('Please fill in name field!');
             return;
         }
         

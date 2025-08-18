@@ -8,7 +8,7 @@ window.onload = async function(){
 }
 
 function searchAvailability(){
-    window.location.href = `http://localhost:3000/find_space/?start=${startDatePicker.selectedDates[0]}&end=${endDatePicker.selectedDates[0]}`;
+    window.location.href = `http://localhost:3000/new_reservation/find_space/?start=${startDatePicker.selectedDates[0]}&end=${endDatePicker.selectedDates[0]}`;
 }
 
 function initDatePickers(){

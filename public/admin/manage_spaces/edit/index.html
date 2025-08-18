@@ -175,11 +175,10 @@
 <button class="nav-btn">Campers</button>
 <button class="nav-btn">Find Camper</button>
 <button class="nav-btn">Groups</button>
-<button class="nav-btn primary">Site Management</button>
 <button class="nav-btn">Site Availability</button>
 <button class="nav-btn">Reports</button>
 <button class="nav-btn">Database Backup</button>
-<button class="nav-btn" onclick="window.location.href = 'http://localhost:3000/admin'">Admin</button>
+<button class="nav-btn primary" onclick="window.location.href = 'http://localhost:3000/admin'">Admin</button>
 </div>
 </div>
 
@@ -229,9 +228,9 @@
 
 <div class="form-actions">
 <div class="btn-group">
-<button type="button" class="btn-cancel" onclick="window.location.href='http://localhost:3000/admin/manage_spaces/'">Cancel</button>
+<button type="button" class="btn-cancel" onclick="window.location.href='http://localhost:3000/admin/manage_spaces/'">Back</button>
 <button type="submit" class="niceButton">Save Changes</button>
-<button type="submit" class="niceButton" style="background: red !important">Delete Site</button>
+<button type="button" class="niceButton" style="background: red !important" id="deleteSpace">Delete Space</button>
 </div>
 </div>
 </form>

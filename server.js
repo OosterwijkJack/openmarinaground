@@ -23,9 +23,13 @@ app.get('/new_reservation', (reg, res) => {
 app.get('/', (reg, res) => {
     res.sendFile(__dirname + "/public/reservation_list/index.html")
 })
-app.get("/find_space", (reg, res)=>{
-    res.sendFile(__dirname + "/public/find_space/index.html")
+app.get("/new_reservation/find_space", (reg, res)=>{
+    res.sendFile(__dirname + "/public/new_reservation/find_space/index.html")
 })
+app.get("/new_reservation/enter_information", (reg, res)=>{
+    res.sendFile(__dirname + "/public/new_reservation/enter_information/index.html")
+})
+
 app.get("/admin", (req, res) =>{
     res.sendFile(__dirname + "/public/admin/index.html")
 })
@@ -72,9 +76,8 @@ app.get("/api/spaces/", async (req, res)=>{
 
 app.post("/api/spaces/get_by_name", async (req, res)=>{
     try {
-        console.log(req.body.name);
-        //const spaces = await masterDB('spaces').select('*');
-        //res.json(spaces);
+        const spaces = await masterDB('spaces').select('*').where("name", req.body.name);
+        res.json(spaces);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -87,5 +90,36 @@ app.post("/api/spaces/add", async (req,res) => {
     }
     catch(err){
         res.status(500).json({error: err.message})
+    }
+})
+app.post("/api/spaces/edit", async (req, res) =>{
+    try{
+        await masterDB("spaces")
+        .update({
+            size: req.body.size,
+            type: req.body.type,
+            daily: req.body.daily,
+            weekly: req.body.weekly,
+            monthly: req.body.monthly,
+            special: req.body.special
+        })
+        .where("name", req.body.name)
+        res.json({success: true})
+    }
+    catch(err){  
+        res.json({error: err.message})
+    }
+});
+
+app.post("/api/spaces/delete", async(req, res) =>{
+    try{
+        await masterDB("spaces")
+        .where("name", req.body.name)
+        .limit(1)
+        .del();
+        res.json({success: true})
+    }
+    catch(err){
+        res.json({error: err.message})
     }
 })
