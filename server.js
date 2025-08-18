@@ -2,9 +2,9 @@ const express = require('express');
 const sqlit3 = require('sqlite3')
 const knex = require('knex');
 
-const reservationsDB = knex({
+const masterDB = knex({
   client: 'sqlite3',
-  connection: {filename: './databases/reservations.db'},
+  connection: {filename: './databases/MasterDatabase.db'},
   useNullAsDefault: true
 });
 
@@ -32,6 +32,12 @@ app.get("/admin", (req, res) =>{
 app.get("/admin/manage_spaces", (req, res)=>{
     res.sendFile(__dirname + "/public/admin/manage_spaces/index.html")
 })
+app.get("/admin/manage_spaces/add", (req, res)=>{
+    res.sendFile(__dirname + "/public/admin/manage_spaces/add/index.html")
+})
+app.get("/admin/manage_spaces/edit", (req, res)=>{
+    res.sendFile(__dirname + "/public/admin/manage_spaces/edit/index.html")
+})
 
 app.listen(port, () =>{
     console.log(`Server running at http://localhost:${port}`)
@@ -39,7 +45,7 @@ app.listen(port, () =>{
 
 app.get('/api/reservations', async (req, res) => {
     try {
-        const reservations = await reservationsDB('reservations').select('*');
+        const reservations = await masterDB('reservations').select('*');
         res.json(reservations);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -49,10 +55,37 @@ app.get('/api/reservations', async (req, res) => {
 // API to add a reservation
 app.post('/api/reservations', async (req, res) => {
     try {
-      console.log(req.body);
-        await reservationsDB('reservations').insert(req.body);
+        await masterDB('reservations').insert(req.body);
         res.json({ success: true });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
+app.get("/api/spaces/", async (req, res)=>{
+    try {
+        const spaces = await masterDB('spaces').select('*');
+        res.json(spaces);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+})
+
+app.post("/api/spaces/get_by_name", async (req, res)=>{
+    try {
+        console.log(req.body.name);
+        //const spaces = await masterDB('spaces').select('*');
+        //res.json(spaces);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+})
+
+app.post("/api/spaces/add", async (req,res) => {
+    try{
+        await masterDB("spaces").insert(req.body);
+        res.json({success: true})
+    }
+    catch(err){
+        res.status(500).json({error: err.message})
+    }
+})

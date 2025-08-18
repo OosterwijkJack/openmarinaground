@@ -148,7 +148,7 @@
         #reservationTable thead th {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             padding: 16px 12px;
-            text-align: left;
+            text-align: center;
             font-weight: 600;
             color: #495057;
             border-bottom: 2px solid #dee2e6;
@@ -159,7 +159,7 @@
             padding: 14px 12px;
             border-bottom: 1px solid #f1f3f4;
             vertical-align: middle;
-            text-align: center;
+            text-align: center !important;
         }
 
         #reservationTable tbody tr {
