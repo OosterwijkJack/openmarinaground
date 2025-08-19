@@ -48,6 +48,6 @@ async function populateSpaceTable(){
 
 $('#spaceTable').on('click', '.select-btn', function () {
     let rowData = table.row($(this).parents('tr')).data();
-    
-    window.location.href = `http://localhost:3000/new_reservation/enter_information?space=${rowData[0]}`
+    const urlParams = new URLSearchParams(window.location.search);
+    window.location.href = `http://localhost:3000/new_reservation/enter_information?space=${rowData[0]}&start=${urlParams.get("start")}&end=${urlParams.get("end")}`
 });

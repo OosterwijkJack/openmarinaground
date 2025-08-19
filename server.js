@@ -29,6 +29,9 @@ app.get("/new_reservation/find_space", (reg, res)=>{
 app.get("/new_reservation/enter_information", (reg, res)=>{
     res.sendFile(__dirname + "/public/new_reservation/enter_information/index.html")
 })
+app.get("/new_reservation/review_reservation", (reg, res)=>{
+    res.sendFile(__dirname + "/public/new_reservation/review_reservation/index.html")
+})
 
 app.get("/admin", (req, res) =>{
     res.sendFile(__dirname + "/public/admin/index.html")
