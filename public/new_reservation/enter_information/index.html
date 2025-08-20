@@ -117,6 +117,12 @@
     color: #555;
     margin-bottom: 15px;
 }
+.form-group select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
 
 @media (max-width: 768px) {
     .form-row {
@@ -227,6 +233,13 @@
             <div class="form-group half">
                 <label for="boatLength">Boat Length (ft)</label>
                 <input type="number" id="boatLength" name="boatLength" step="1" min="0">
+            </div>
+            <div class="form-group half">
+                <label for="rigType">Rig Type</label>
+                <select id="rigType">
+                  <option value="Sail Boat" selected>Sail Boat</option>
+                  <option value="Motor Boat">Motor Boat</option>
+               </select>
             </div>
         </div>
         

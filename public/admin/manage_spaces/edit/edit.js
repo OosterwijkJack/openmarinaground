@@ -22,7 +22,9 @@ window.onload = async function(){
         })
         .then(response => response.json())
         .then(data =>{
-            console.log(data)
+            if(data.success){
+                alert("Changes saved succesfully")
+            }
         })
         .catch(error => {
             console.log(error)

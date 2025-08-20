@@ -35,7 +35,7 @@ $("#reservationForm").on("submit", async function (event) {
     // If validation passes, process the form
     console.log('Form submitted with data:', data);
     const urlParams = new URLSearchParams(window.location.search);
-    let redirectUrl = `http://localhost:3000/new_reservation/review_reservation/?firstName=${data.firstName}&lastName=${data.lastName}&address=${data.address}&address2=${data.address2}&city=${data.city}&state=${data.state}&zip=${data.zip}&email=${data.email}&phone=${data.phone}&boatName=${data.boatName}&boatLength=${data.boatLength}&space=${urlParams.get("space")}&start=${urlParams.get("start")}&end=${urlParams.get("end")}`
+    let redirectUrl = `http://localhost:3000/new_reservation/review_reservation/?firstName=${data.firstName}&lastName=${data.lastName}&address=${data.address}&address2=${data.address2}&city=${data.city}&state=${data.state}&zip=${data.zip}&email=${data.email}&phone=${data.phone}&boatName=${data.boatName}&boatLength=${data.boatLength}&space=${urlParams.get("space")}&start=${urlParams.get("start")}&end=${urlParams.get("end")}&type=${document.getElementById("rigType").value}`
     window.location.href = redirectUrl;
     
     // Here you would typically send the data to your server

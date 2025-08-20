@@ -3,6 +3,8 @@ window.onload = async function () {
 
     console.log(urlParams);
     populateFields(urlParams);
+
+    await calcPrice();
     
 }
 
@@ -18,6 +20,7 @@ function populateFields(data){
     document.getElementById("email").value = data.get("email");
     document.getElementById("boatName").value = data.get("boatName");
     document.getElementById("boatSize").value = data.get("boatLength");
+    document.getElementById("rigType").value = data.get("type")
 
     let dateStart = new Date(data.get("start"))
 
@@ -39,8 +42,8 @@ function populateFields(data){
 
     document.getElementById("endDate").value=formatted
 
-    let table = document.querySelector(".site-info-table");
-    table.rows[1].cells[0].innerText = data.get("space")
+    let siteTable = document.querySelector(".site-info-table");
+    siteTable.rows[1].cells[0].innerText = data.get("space")
 
 }   
 // Basic form functionality
@@ -75,50 +78,84 @@ function completeReservation() {
         }
     });
     
-    if (isValid) {
-        alert('Reservation completed successfully!');
-    } else {
+    if (!isValid) {
         alert('Please fill in all required fields.');
+        return;
     }
+
+    let fullName = document.getElementById("firstName").value + " " + document.getElementById("lastName").value;
+
+    let siteTable = document.querySelector(".site-info-table");
+    let space = siteTable.rows[1].cells[0].innerText;
+
+    let rateDatble = document.querySelector(".rate-table");
+    let due = rateDatble.rows[2].cells[5].innerText;
+
+    let requestBody = {
+        start: document.getElementById("startDate").value,
+        end: (document.getElementById("endDate").value),
+        name: fullName,
+        type: document.getElementById("rigType").value,
+        length: document.getElementById("boatSize").value,
+        space: space,
+        payment: 0,
+        due: due,
+        address: document.getElementById("address").value,
+        address2: document.getElementById("address2").value,
+        state: document.getElementById("state").value,
+        postal: document.getElementById("zip").value,
+        phone: document.getElementById("phone").value,
+        email: document.getElementById("email").value,
+        boat_name: document.getElementById("boatName").value
+
+    }
+
+    fetch("/api/reservations", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(requestBody)
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log(data)
+        if(data.success){
+            alert("Reservation complete.")
+            window.location.href = "http://localhost:3000/"
+        }
+    })
 }
 
 // Auto-calculate dates and rates
-document.addEventListener('DOMContentLoaded', function() {
+ function calcPrice() {
     const startDate = document.getElementById('startDate');
     const endDate = document.getElementById('endDate');
+    const start = new Date(startDate.value);
+    const end = new Date(endDate.value);
+    const days = Math.max(1, Math.ceil((end - start) / (1000 * 60 * 60 * 24)));
     
-    function updateRateInfo() {
-        const start = new Date(startDate.value);
-        const end = new Date(endDate.value);
-        const days = Math.max(1, Math.ceil((end - start) / (1000 * 60 * 60 * 24)));
+    // Update the rate table
+    const rateRow = document.querySelector('.rate-table tbody tr:first-child');
+    if (rateRow) {
+        rateRow.cells[1].textContent = startDate.value;
+        rateRow.cells[2].textContent = endDate.value;
+        rateRow.cells[3].textContent = days.toFixed(2);
         
-        // Update the rate table
-        const rateRow = document.querySelector('.rate-table tbody tr:first-child');
-        if (rateRow) {
-            rateRow.cells[1].textContent = formatDate(start);
-            rateRow.cells[2].textContent = formatDate(end);
-            rateRow.cells[3].textContent = days.toFixed(2);
-            
-            const dailyRate = 50.00;
-            const total = days * dailyRate;
-            rateRow.cells[5].textContent = `$${total.toFixed(2)}`;
-            
-            // Update totals
-            const totalRow = document.querySelector('.rate-table tbody tr:nth-child(2)');
-            const amountDueRow = document.querySelector('.rate-table tbody tr:nth-child(3)');
-            totalRow.cells[5].textContent = `$${total.toFixed(2)}`;
-            amountDueRow.cells[5].textContent = `$${total.toFixed(2)}`;
-        }
+        const dailyRate = 50.00;
+        const total = days * dailyRate;
+        rateRow.cells[5].textContent = `$${total.toFixed(2)}`;
+        
+        // Update totals
+        const totalRow = document.querySelector('.rate-table tbody tr:nth-child(2)');
+        const amountDueRow = document.querySelector('.rate-table tbody tr:nth-child(3)');
+        totalRow.cells[5].textContent = `$${total.toFixed(2)}`;
+        amountDueRow.cells[5].textContent = `$${total.toFixed(2)}`;
     }
     
-    function formatDate(date) {
+}
+function formatDate(date) {
         return date.toLocaleDateString('en-US', {
             month: '2-digit',
             day: '2-digit',
             year: 'numeric'
         });
     }
-    
-    startDate.addEventListener('change', updateRateInfo);
-    endDate.addEventListener('change', updateRateInfo);
-});

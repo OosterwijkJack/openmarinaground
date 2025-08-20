@@ -4,6 +4,7 @@ window.onload = async function() {
     
     table = new DataTable('#reservationTable');
     table.searching = true;
+    table.order([1, 'desc']).draw()
     await appendTable();
 
 }
